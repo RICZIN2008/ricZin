@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel de Informações</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background-color: black;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    .login-container,
+    .panel-container {
+      background-color: rgba(0, 0, 0, 0.9);
+      padding: 40px 5%;
+      border-radius: 15px;
+      color: #fff;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 400px;
+      margin-bottom: 20px;
+      border: 5px solid transparent;
+      animation: borderColorChange 5s infinite linear;
+    }
+
+    .login-container h1,
+    .panel-container h2 {
+      margin-bottom: 20px;
+    }
+
+    input {
+      width: 100%;
+      padding: 15px;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 10px;
+      outline: none;
+      font-size: 15px;
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      background-color: dodgerblue;
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: deepskyblue;
+    }
+
+    .error {
+      color: red;
+      font-size: 14px;
+      margin-top: 10px;
+      display: none;
+    }
+
+    progress {
+      width: 100%;
+      margin-top: 20px;
+      height: 20px;
+    }
+
+    .info {
+      margin: 10px 0;
+    }
+
+    .info span {
+      font-weight: bold;
+    }
+
+    @keyframes borderColorChange {
+      0% {
+        border-color: blue;
+      }
+
+      20% {
+        border-color: red;
+      }
+
+      40% {
+        border-color: purple;
+      }
+
+      60% {
+        border-color: green;
+      }
+
+      80% {
+        border-color: pink;
+      }
+
+      100% {
+        border-color: blue;
+      }
+    }
+
+    .panel-container {
+      display: none;
+      background-color: #fff;
+      color: #333;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      margin-top: 20px;
+    }
+
+    /* Estilo do Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.8);
+      padding-top: 60px;
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: 5% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 400px;
+      text-align: center;
+      border-radius: 10px;
+    }
+
+    .modal-content button {
+      margin: 10px;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .modal-content button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Tela de Login -->
+  <div class="login-container" id="loginScreen">
+    <h1>Login</h1>
+    <form id="loginForm">
+      <input type="text" name="username" placeholder="Usuário" required>
+      <input type="password" name="password" placeholder="Senha" required>
+      <button type="submit">Enviar</button>
+      <p class="error" id="errorMessage">Usuário ou senha incorretos.</p>
+    </form>
+    <progress id="progressBar" value="0" max="100"></progress>
+  </div>
+
+  <!-- Painel de Informações -->
+  <div class="panel-container" id="panelScreen">
+    <h2>Painel de Informações</h2>
+    <div class="info"><span>IP: </span><span id="ip">Carregando...</span></div>
+    <div class="info"><span>Cidade: </span><span id="city">Carregando...</span></div>
+    <div class="info"><span>Estado: </span><span id="state">Carregando...</span></div>
+    <div class="info"><span>País: </span><span id="country">Carregando...</span></div>
+    <div class="info"><span>Data: </span><span id="date">Carregando...</span></div>
+
+    <!-- Botões -->
+    <div class="button-container">
+      <div class="button-title">CMSP</div>
+      <button class="panel-btn" onclick="abrirLink('https://doritus.mmrcoss.tech/')">TAREFA SP</button>
+      <button class="panel-btn" onclick="abrirLink('https://github.com/RICZIN2008/KHAN-ACADEMY.git')">KHAN ACADEMY</button>
+      <button class="panel-btn" onclick="abrirLink('https://www.cmspsp.com.br')">ALURA</button>
+      <button class="panel-btn" onclick="abrirLink('https://github.com/RICZIN2008/SPEAK.git')">SPEAK</button>
+
+      <div class="button-title">Consulta</div>
+      <button class="panel-btn" id="btnConsulta" onclick="abrirLink('https://consultanumero.abrtelecom.com.br/consultanumero/consulta/consultaSituacaoAtualCtg')">Consulta Numero</button>
+      <button class="panel-btn" id="btnConsulta" onclick="abrirLink('https://servicos.receita.fazenda.gov.br/Servicos/CPF/ConsultaSituacao/ConsultaPublica.asp')">Consulta CPF</button>
+      <button class="panel-btn" id="btnConsulta" onclick="abrirLink('https://solucoes.receita.fazenda.gov.br/servicos/cnpjreva/cnpjreva_solicitacao.asp')">Consulta CNPJ</button>
+      <button class="panel-btn" id="btnConsulta" onclick="abrirLink('https://www.consulta.com.br')">Consulta IP</button>
+      
+      <div class="button-title">Pix Fake</div>
+      <button class="panel-btn" id="btnPixFake" onclick="abrirLink('https://www.mediafire.com/file/nkxmp7ejgtg4ea7/Nubank_version_1.zip/file')">Nubank Version 1</button>
+      <button class="panel-btn" id="btnPixFake" onclick="abrirLink('https://www.mediafire.com/file/notaeqbwveiki3y/Nubank_vesion_2.zip/file')">Nubank Version 2</button>
+      <button class="panel-btn" id="btnPixFake" onclick="abrirLink('https://www.mediafire.com/file/55gck9beesie7zj/Nubank+Qr+code_1.0+.zip/file')">Nubank Qr code 1.0</button>
+      <button class="panel-btn" id="btnPixFake" onclick="abrirLink('https://www.mediafire.com/file/9v996fqwjlbfeq7/PicPay.apk/file')">PicPay</button>
+      <button class="panel-btn" id="btnPixFake" onclick="abrirLink('https://www.mediafire.com/file/6zog4d0xljnh1zo/Inter.apk/file')">Inter</button>    <button class="panel-btn" id="btnPixFake" onclick="abrirLink('https://www.mediafire.com/file/325v49qb4ghmklc/c6_bank.apk/file')">c6 bank</button>
+      <button class="panel-btn" id="btnPixFake" onclick="abrirLink('https://www.mediafire.com/file/p9beu8uwri3z7ge/Pagbank.apk/file')">Pagbank</button>
+    </div>
+  </div> 
+
+  <!-- Modal (janela) -->
+  <div id="myModal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="closeModal">&times;</span>
+      <h2>TAREFA SP</h2>
+      <p>Você está prestes a abrir o link da tarefa.</p>
+      <button onclick="window.open('https://www.exemplo.com', '_blank');">ABRIR LINK</button>
+    </div>
+  </div> 
+  <!-- Modal de Redes Sociais -->
+  <div id="socialModal" class="modal">
+    <div class="modal-content">
+      <h2>Siga nossas Redes Sociais</h2>
+      <p>Para acessar o painel, siga nossos perfis:</p>
+      <button onclick="seguir('https://www.youtube.com/@Ric_zin_404')">YouTube</button>
+      <button onclick="seguir('https://www.instagram.com/ric_zin_404')">Instagram</button>
+    </div>
+  </div>
+
+  <script>
+    // Variáveis do DOM
+    const form = document.getElementById('loginForm');
+    const errorMessage = document.getElementById('errorMessage');
+    const progressBar = document.getElementById('progressBar');
+    const loginScreen = document.getElementById('loginScreen');
+    const panelScreen = document.getElementById('panelScreen');
+    const socialModal = document.getElementById('socialModal');
+    let youtubeClicked = false;
+    let instagramClicked = false;
+
+    // Função para carregar informações no painel
+    function carregarInformacoes() {
+      document.getElementById('ip').textContent = "192.168.1.1";
+      document.getElementById('city').textContent = "São Paulo";
+      document.getElementById('state').textContent = "SP";
+      document.getElementById('country').textContent = "Brasil";
+      document.getElementById('date').textContent = new Date().toLocaleDateString();
+    }
+
+    // Função para abrir o modal de redes sociais
+    function mostrarRedesSociais() {
+      socialModal.style.display = 'block';
+    }
+
+    // Função para simular "seguir" nas redes sociais
+    function seguir(url) {
+      window.open(url, '_blank'); // Abre o link em uma nova aba
+      if (url.includes('youtube')) youtubeClicked = true;
+      if (url.includes('instagram')) instagramClicked = true;
+
+      // Verifica se ambos os botões foram clicados
+      if (youtubeClicked && instagramClicked) {
+        socialModal.style.display = 'none'; // Fecha o modal
+        panelScreen.style.display = 'block'; // Exibe o painel
+        carregarInformacoes();
+      }
+    }
+
+    // Validação de login
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const username = form.username.value.trim();
+      const password = form.password.value.trim();
+
+      if (username === "admin" && password === "1234") {
+        errorMessage.style.display = "none";
+        let progress = 0;
+        const interval = setInterval(() => {
+          progress += 10;
+          progressBar.value = progress;
+          if (progress === 100) {
+            clearInterval(interval);
+            loginScreen.style.display = 'none';
+            mostrarRedesSociais(); // Exibe o modal de redes sociais
+          }
+        }, 500);
+      } else {
+        errorMessage.style.display = "block";
+      }
+    });
+    
+        // Função para abrir o link
+    function abrirLink(url) {
+      window.open(url, '_blank');
+    }
+  </script>
+</body>
+
+</html>
