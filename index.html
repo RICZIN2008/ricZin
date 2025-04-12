@@ -8,107 +8,78 @@
     body {
       margin: 0;
       font-family: sans-serif;
-      background: black; /* Fundo preto inicialmente */
+      background: black;
       color: white;
       overflow: hidden;
+      transition: background 1s ease-in-out;
     }
-
     .neve {
       position: fixed;
-      top: 0;
+      bottom: 0;
       left: 0;
       width: 100%;
       height: 100%;
       pointer-events: none;
       z-index: 100;
     }
-
     .neve span {
       position: absolute;
       display: block;
-      width: 5px;
-      height: 5px;
+      width: 6px;
+      height: 6px;
       background: #c57eff;
       border-radius: 50%;
-      animation: cair linear infinite;
+      animation: subir linear infinite;
       opacity: 0.8;
     }
-
-    @keyframes cair {
-      0% { transform: translateY(-100px); opacity: 0; }
-      100% { transform: translateY(100vh); opacity: 1; }
+    @keyframes subir {
+      0% { transform: translateY(100vh); opacity: 0; }
+      100% { transform: translateY(-100px); opacity: 1; }
     }
-
-    .ip-box {
-      position: fixed;
-      top: 10px;
-      left: 10px;
-      background: rgba(0, 0, 0, 0.7);
-      padding: 10px 20px;
-      border-radius: 10px;
-      z-index: 101;
-    }
-
     .center {
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: flex-start;
       height: 100vh;
       flex-direction: column;
+      position: relative;
+      transition: all 1s ease;
     }
-
     .foto {
       width: 200px;
       height: 200px;
       border-radius: 50%;
       overflow: hidden;
+      margin: auto;
+      opacity: 0;
+      transform: translateY(-100px);
+      animation: descer 2s ease forwards;
+      animation-delay: 0.5s;
       cursor: pointer;
-      transition: transform 0.3s ease;
+      z-index: 200;
     }
-
     .foto img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
-
+    @keyframes descer {
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
     .links-sociais {
       margin-top: 10px;
-      font-size: 12px;
       display: flex;
       gap: 20px;
+      justify-content: center;
+      font-size: 12px;
     }
-
     .links-sociais a {
       color: white;
       text-decoration: none;
     }
-
-    .conteudo {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      gap: 20px;
-      margin-top: 40px;
-    }
-
-    .menu {
-      display: none;
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      flex-direction: column;
-      gap: 10px;
-      cursor: pointer;
-      z-index: 1001;
-    }
-
-    .barra {
-      width: 40px;
-      height: 5px;
-      background: white;
-    }
-
     .menu-categorias {
       display: none;
       position: absolute;
@@ -121,25 +92,12 @@
       gap: 10px;
       z-index: 1000;
     }
-
     .menu-categorias .categoria {
       cursor: pointer;
-      background: rgba(0,0,0,0.6);
+      background: rgba(0, 0, 0, 0.6);
       padding: 5px 10px;
       border-radius: 4px;
     }
-
-    .nomes {
-      display: none;
-      margin-top: 5px;
-      flex-direction: column;
-      gap: 5px;
-    }
-
-    .categoria.ativa .nomes {
-      display: flex;
-    }
-
     .botoes {
       position: fixed;
       bottom: 0;
@@ -151,16 +109,26 @@
       padding: 10px;
       z-index: 10;
     }
-
-    .botoes button, .nomes div {
+    .botoes button {
       padding: 10px 15px;
       cursor: pointer;
       background: rgba(255, 255, 255, 0.2);
       border: none;
       border-radius: 5px;
       color: white;
+      transition: background 0.3s;
     }
-
+    .ip-box {
+      position: fixed;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.7);
+      padding: 10px 20px;
+      border-radius: 10px;
+      z-index: 101;
+      display: none;
+    }
     .botao-fundo-container {
       position: fixed;
       top: 80px;
@@ -170,28 +138,25 @@
       flex-direction: column;
       gap: 10px;
     }
-
     .botao-fundo, .botao-musica {
       width: 50px;
       height: 50px;
       border-radius: 50%;
-      background: rgba(255,255,255,0.2);
+      background: rgba(255, 255, 255, 0.2);
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
       font-size: 24px;
     }
-
     .botao-musica.hidden {
       display: none;
     }
-
     .seletor-fundo {
       position: fixed;
       top: 140px;
       left: 10px;
-      background: rgba(0,0,0,0.7);
+      background: rgba(0, 0, 0, 0.7);
       padding: 10px;
       border-radius: 10px;
       display: none;
@@ -200,41 +165,36 @@
       gap: 5px;
       z-index: 1000;
     }
-
     .seletor-fundo h3 {
       margin: 0 0 5px;
     }
-
     .seletor-fundo .opcao {
       margin-left: 10px;
+      cursor: pointer;
+    }
+    .trocar-btns {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      z-index: 1100;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .trocar-btns button {
+      padding: 5px 10px;
+      background: rgba(255,255,255,0.2);
+      color: white;
+      border: none;
+      border-radius: 5px;
       cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <div class="neve"></div>
-  <div class="ip-box" id="ip" style="display: none;">Carregando IP...</div>
+  <div class="neve" id="neve"></div>
 
-  <div class="menu" onclick="toggleMenu()">
-    <div class="barra"></div>
-    <div class="barra"></div>
-    <div class="barra"></div>
-  </div>
-
-  <div class="botao-fundo-container">
-    <div class="botao-fundo" onclick="toggleSeletorFundo()">📷</div>
-    <div class="botao-musica" id="botaoMusica" onclick="abrirMusica()">🎵</div>
-  </div>
-
-  <div class="seletor-fundo">
-    <h3>Fundo</h3>
-    <div><strong>GIF</strong></div>
-    <div class="opcao" onclick="trocarFundo('https://github.com/RICZIN2008/Midia/raw/main/giphy.gif')">Gif 1</div>
-    <div class="opcao" onclick="trocarFundo('https://example.com/gif2.gif')">Gif 2</div>
-    <div><strong>Foto</strong></div>
-    <div class="opcao" onclick="trocarFundo('https://github.com/RICZIN2008/Midia/raw/main/images_1962af409d2.jpeg')">Foto 1</div>
-    <div class="opcao" onclick="trocarFundo('https://example.com/foto2.jpg')">Foto 2</div>
-  </div>
+  <div class="ip-box" id="ip">Carregando IP...</div>
 
   <div class="menu-categorias">
     <div class="categoria" onclick="toggleCategoria(this)">Consultar dados
@@ -245,69 +205,35 @@
         <div onclick="window.open('https://riczin2008.github.io/IP/')">IP</div>
       </div>
     </div>
-    <div class="categoria" onclick="toggleCategoria(this)">PIX fake
-      <div class="nomes">
-        <div onclick="window.open('https://link4.com')">Inter</div>
-        <div onclick="window.open('https://link5.com')">Pagbank</div>
-        <div onclick="window.open('https://link6.com')">PicPay</div>
-      </div>
-    </div>
-    <div class="categoria" onclick="toggleCategoria(this)">Notas falsas
-      <div class="nomes">
-        <div onclick="window.open('https://www.mediafire.com/file/gwn83fr0p26kdy5/RicZin+2+reais+antiga.pdf/file')">RicZin 2 reais.pdf</div>
-        <div onclick="window.open('https://www.mediafire.com/file/faz5pqmbwy0m8y3/RicZin+de+10+reais+antiga.pdf/file')">RicZin 10 reais.pdf</div>
-        <div onclick="window.open('https://www.mediafire.com/file/c652huhpallhwdr/RicZin+20+reais+marcada.pdf/file')">RicZin 20 reais.pdf</div>
-      </div>
-    </div>
   </div>
 
   <div class="center">
-    <div class="foto" onclick="mostrarConteudo()">
-      <img src="https://github.com/RICZIN2008/Midia/raw/main/IMG_20250409_100709_850.jpg" alt="Foto Central" />
+    <div class="foto" onclick="iniciarSite()" id="foto">
+      <img id="imagemCentral" src="https://github.com/RICZIN2008/Midia/raw/main/IMG_20250409_100709_850.jpg" alt="Imagem Central" />
     </div>
     <div class="links-sociais">
       <a href="https://www.instagram.com/ric_zin_7?igsh=MTBwazVsYnAyNDAxZQ==" target="_blank">Instagram</a>
       <a href="https://www.youtube.com/@TD7-OFF" target="_blank">YouTube</a>
     </div>
-    <div class="conteudo">
-      <div class="botoes">
-        <button onclick="window.open('https://riczin2008.github.io/Doacao/')">Fazer doação</button>
-        <button onclick="window.open('https://chat.whatsapp.com/HZnkHg6EmbtIFaXlYXaOBn')">Grupo</button>
-        <button onclick="window.open('https://link3.com')">Contato</button>
-      </div>
-    </div>
+  </div>
+
+  <div class="botoes">
+    <button onclick="botaoClicado(this)">Botão 1</button>
+    <button onclick="botaoClicado(this)">Botão 2</button>
+    <button onclick="botaoClicado(this)">Botão 3</button>
+  </div>
+
+  <div class="trocar-btns">
+    <button onclick="trocarImagem()">Trocar Imagem</button>
+    <button onclick="trocarGif()">Trocar GIF</button>
   </div>
 
   <script>
-    function mostrarIP() {
-      fetch('https://api.ipify.org?format=json')
-        .then(response => response.json())
-        .then(data => {
-          document.getElementById('ip').innerText = `IP: ${data.ip}`;
-        });
-    }
+    let imagemAtual = 1;
+    let gifAtual = 1;
 
-    function toggleCategoria(element) {
-      element.classList.toggle('ativa');
-    }
-
-    function mostrarConteudo() {
-      document.querySelector('.foto').style.display = 'none';
-      document.querySelector('.conteudo').style.display = 'flex';
-      document.querySelector('.menu').style.display = 'flex';
-      document.querySelector('.ip-box').style.display = 'block';
-      document.querySelector('.links-sociais').style.display = 'none';
-      mostrarIP();
-      trocarFundo('https://github.com/RICZIN2008/Midia/raw/main/giphy.gif');
-    }
-
-    function toggleMenu() {
-      const menu = document.querySelector('.menu-categorias');
-      menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
-    }
-
-    function criarNeve() {
-      const neveContainer = document.querySelector('.neve');
+    function criarNeveSubindo() {
+      const neveContainer = document.getElementById('neve');
       for (let i = 0; i < 100; i++) {
         const floco = document.createElement('span');
         floco.style.left = Math.random() * 100 + '%';
@@ -317,37 +243,53 @@
       }
     }
 
-    function toggleSeletorFundo() {
-      const seletor = document.querySelector('.seletor-fundo');
-      const botaoMusica = document.getElementById('botaoMusica');
-      const visivel = seletor.style.display === 'flex';
-      seletor.style.display = visivel ? 'none' : 'flex';
-      botaoMusica.style.display = visivel ? 'flex' : 'none';
+    function iniciarSite() {
+      mudarFundo(gifAtual);
+      document.getElementById('foto').style.display = 'none';
+      document.querySelector('.links-sociais').style.display = 'none';
+      document.querySelector('.menu-categorias').style.display = 'flex';
+      document.querySelector('.ip-box').style.display = 'block';
+      mostrarIP();
     }
 
-    function trocarFundo(url) {
-      document.body.style.background = `url('${url}') no-repeat center center fixed`;
+    function mostrarIP() {
+      fetch('https://api.ipify.org?format=json')
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById('ip').innerText = `IP: ${data.ip}`;
+        });
+    }
+
+    function botaoClicado(botao) {
+      const corOriginal = botao.style.backgroundColor;
+      botao.style.backgroundColor = 'red';
+      setTimeout(() => {
+        botao.style.backgroundColor = corOriginal || 'rgba(255, 255, 255, 0.2)';
+      }, 1000);
+    }
+
+    function trocarImagem() {
+      imagemAtual = imagemAtual === 1 ? 2 : 1;
+      const novaImg = imagemAtual === 1
+        ? "https://github.com/RICZIN2008/Midia/raw/main/IMG_20250409_100709_850.jpg"
+        : "https://via.placeholder.com/200x200.png?text=Nova+Imagem";
+      document.getElementById("imagemCentral").src = novaImg;
+    }
+
+    function trocarGif() {
+      gifAtual = gifAtual === 1 ? 2 : 1;
+      mudarFundo(gifAtual);
+    }
+
+    function mudarFundo(gif) {
+      const gifUrl = gif === 1
+        ? "https://github.com/RICZIN2008/Midia/raw/main/giphy.gif"
+        : "https://media.giphy.com/media/l0MYB8Ory7Hqefo9a/giphy.gif";
+      document.body.style.background = `url('${gifUrl}') no-repeat center center fixed`;
       document.body.style.backgroundSize = 'cover';
     }
 
-    function abrirMusica() {
-      window.open('https://link-da-musica.com');
-    }
-
-    function destacarBotaoClicado() {
-      const botoes = document.querySelectorAll('button, .nomes div, .opcao');
-      botoes.forEach(botao => {
-        botao.addEventListener('click', function () {
-          this.style.background = 'red';
-        });
-      });
-    }
-
-    window.onload = () => {
-      criarNeve();
-      destacarBotaoClicado();
-    };
+    window.onload = criarNeveSubindo;
   </script>
 </body>
-          </html>
-    
+</html>
